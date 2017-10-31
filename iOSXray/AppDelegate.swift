@@ -24,7 +24,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 				window.rootViewController = navigationController
 				window.makeKeyAndVisible()
 			}
-
 		}
 
 		// get stored config
@@ -33,56 +32,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 		var jsonStoredConfig: Data!
 
 		// GET CONFIG FROM NETWORK
-		var networkError: Error?
-		let url = URL(string: "http://192.168.0.38:8800/config")
-		let task = URLSession.shared.dataTask(with: url!) {
-			(data, response, error) in
-			if error != nil {
-				networkError = error
-
-				return
-			}
-
-			jsonNetworkConfig = data
-
-			do {
-				if let todoJSON = try JSONSerialization.jsonObject(with: jsonNetworkConfig!, options: []) as? [String: Any],
-						let cbj = Config(json: todoJSON) {
-					self.networkConfig = cbj
-				} else {
-					NSLog("FUCKING NETWORK JSON PARSE ERROR")
-				}
-			} catch {
-				NSLog("FUCKING NETWORK JSON PARSE EXCEPTION")
-			}
-		}
-		task.resume()
-		if networkError != nil {
-			NSLog("FUCKING NETWORK ERROR: %@", networkError.debugDescription)
+		var request = URLRequest(url: URL(string: "http://192.168.0.38:8800/config")!)
+		request.httpMethod = "GET"
+		let (data, _, error) = URLSession.shared.sendSynchronousRequest(request: request)
+		if error != nil {
+			NSLog("FUCKING NETWORK ERROR: %@", error.debugDescription)
 
 			return true
 		}
+
+		jsonNetworkConfig = data
+		// let jsonData = jsonString.data(encoding: .utf8)!
+		let decoder = JSONDecoder()
+		self.networkConfig = try! decoder.decode(Config.self, from: jsonNetworkConfig)
 
 		// GET CONFIG FROM CACHE
-		let jsonStrCfg = self.defaults.string(forKey: StoredConfigKey)!
-		if jsonStrCfg == "" {
+		let jsonStrCfg = self.defaults.string(forKey: StoredConfigKey)
+		if jsonStrCfg == nil {
 			NSLog("No cached config")
-			self.defaults.set(String(data: jsonNetworkConfig!, encoding: String.Encoding.utf8), forKey: StoredConfigKey)
+			if jsonNetworkConfig == nil {
+				NSLog("No network config")
+			}
+
+			if let jsonString = String(data: jsonNetworkConfig, encoding: .utf8) {
+				self.defaults.set(jsonString, forKey: StoredConfigKey)
+			}
 
 			return true
 		}
-		jsonStoredConfig = jsonStrCfg.data(using: String.Encoding.utf8)
+		jsonStoredConfig = (jsonStrCfg!).data(using: .utf8)
 
-		do {
-			if let todoJSON = try JSONSerialization.jsonObject(with: jsonStoredConfig!, options: []) as? [String: Any],
-					let cbj = Config(json: todoJSON) {
-				self.storedConfig = cbj
-			} else {
-				NSLog("FUCKING STORED JSON PARSE ERROR")
-			}
-		} catch {
-			NSLog("FUCKING STORED JSON PARSE EXCEPTION")
-		}
+		self.storedConfig = try! decoder.decode(Config.self, from: jsonStoredConfig)
 
 		if self.networkConfig.uniqueConfigHash == self.storedConfig.uniqueConfigHash {
 			NSLog("Config is actual")
@@ -127,5 +107,39 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 		// Called when the application is about to terminate.
 		// Save data if appropriate. See also applicationDidEnterBackground:.
 	}
+}
+
+extension URLSession {
+	func sendSynchronousRequest(request: URLRequest) -> (Data?, URLResponse?, Error?) {
+		var rData: Data?
+		var rResponse: URLResponse?
+		var rError: Error?
+
+		let semaphore = DispatchSemaphore(value: 0)
+
+		let task = self.dataTask(with: request) {
+			data, response, error in
+			rData = data
+			rResponse = response
+			rError = error
+
+		}
+		task.resume()
+
+		_ = semaphore.wait(timeout: .distantFuture)
+
+		return (rData, rResponse, rError)
+	}
+
+//	func sendAsynchronousRequest(request: URLRequest) -> (Data?, URLResponse?, Error?) -> URLSessionDataTask {
+//		let task = self.dataTask(with: request) {
+//			data, response, error in
+//
+//
+//		}
+//		task.resume()
+//
+//		return task
+//	}
 }
 
