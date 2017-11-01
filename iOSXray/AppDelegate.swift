@@ -13,6 +13,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 
 	func application(_ application: UIApplication,
 	                 didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+		// Custom View Controller
 		let viewController: UIViewController = ViewController()
 		self.navigationController = UINavigationController()
 		if let navigationController = self.navigationController {
@@ -26,52 +27,67 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 			}
 		}
 
-		// get stored config
-
 		var jsonNetworkConfig: Data!
 		var jsonStoredConfig: Data!
 
-		// GET CONFIG FROM NETWORK
-		var request = URLRequest(url: URL(string: "http://192.168.0.38:8800/config")!)
-		request.httpMethod = "GET"
-		let (data, _, error) = URLSession.shared.sendSynchronousRequest(request: request)
-		if error != nil {
-			NSLog("FUCKING NETWORK ERROR: %@", error.debugDescription)
-
-			return true
-		}
-
-		jsonNetworkConfig = data
-		// let jsonData = jsonString.data(encoding: .utf8)!
-		let decoder = JSONDecoder()
-		self.networkConfig = try! decoder.decode(Config.self, from: jsonNetworkConfig)
-
-		// GET CONFIG FROM CACHE
+		// get stored config
 		let jsonStrCfg = self.defaults.string(forKey: StoredConfigKey)
-		if jsonStrCfg == nil {
-			NSLog("No cached config")
-			if jsonNetworkConfig == nil {
-				NSLog("No network config")
+		if jsonStrCfg != nil {
+			jsonStoredConfig = (jsonStrCfg!).data(using: .utf8)
+			self.storedConfig = try! JSONDecoder().decode(Config.self, from: jsonStoredConfig)
+		}
+
+		// GET CONFIG FROM NETWORK
+		var req = URLRequest(url: URL(string: "http://192.168.0.38:8800/config")!)
+		req.httpMethod = "GET"
+
+		let task = URLSession.shared.dataTask(with: req as URLRequest) {
+			data, response, error in
+
+			if error != nil {
+				NSLog("Error make request, %@", error.debugDescription)
+
+				return
 			}
 
-			if let jsonString = String(data: jsonNetworkConfig, encoding: .utf8) {
-				self.defaults.set(jsonString, forKey: StoredConfigKey)
-			}
+			jsonNetworkConfig = data
+			self.networkConfig = try! JSONDecoder().decode(Config.self, from: jsonNetworkConfig)
+		}
+		task.resume()
+
+		if self.networkConfig == nil && self.storedConfig == nil {
+			NSLog("Network is unavailable and no stored config.")
+			//Alert about connection
 
 			return true
 		}
-		jsonStoredConfig = (jsonStrCfg!).data(using: .utf8)
 
-		self.storedConfig = try! decoder.decode(Config.self, from: jsonStoredConfig)
-
-		if self.networkConfig.uniqueConfigHash == self.storedConfig.uniqueConfigHash {
-			NSLog("Config is actual")
+		if self.storedConfig == nil && self.networkConfig != nil {
+			NSLog("First start, set new config")
+			// set new config
 
 			return true
 		}
 
-		NSLog("New config cached")
-		self.defaults.set(String(data: jsonNetworkConfig!, encoding: String.Encoding.utf8), forKey: StoredConfigKey)
+		if self.storedConfig != nil && self.networkConfig == nil {
+			NSLog("Network is unavailable, use old stored config")
+
+			return true
+		}
+
+		if self.storedConfig.uniqueConfigHash != self.networkConfig.uniqueConfigHash {
+			NSLog("Stored config is not actual, set new config")
+			// set new config
+
+			return true
+		}
+
+//		let jsonData = jsonString.data(encoding: .utf8)!
+//		let jsonString = String(data: jsonNetworkConfig, encoding: .utf8) {
+//		self.defaults.set(jsonString, forKey: StoredConfigKey)
+
+//		self.storedConfig = try! decoder.decode(Config.self, from: jsonStoredConfig)
+//		self.defaults.set(String(data: jsonNetworkConfig!, encoding: String.Encoding.utf8), forKey: StoredConfigKey)
 
 		return true
 	}
@@ -82,8 +98,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 		// or when the user quits the application and it begins the transition to the background state.
 		// Use this method to pause ongoing tasks, disable timers, and invalidate graphics rendering callbacks.
 		// Games should use this method to pause the game.
-
-
 	}
 
 	func applicationDidEnterBackground(_ application: UIApplication) {
@@ -108,38 +122,3 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 		// Save data if appropriate. See also applicationDidEnterBackground:.
 	}
 }
-
-extension URLSession {
-	func sendSynchronousRequest(request: URLRequest) -> (Data?, URLResponse?, Error?) {
-		var rData: Data?
-		var rResponse: URLResponse?
-		var rError: Error?
-
-		let semaphore = DispatchSemaphore(value: 0)
-
-		let task = self.dataTask(with: request) {
-			data, response, error in
-			rData = data
-			rResponse = response
-			rError = error
-
-		}
-		task.resume()
-
-		_ = semaphore.wait(timeout: .distantFuture)
-
-		return (rData, rResponse, rError)
-	}
-
-//	func sendAsynchronousRequest(request: URLRequest) -> (Data?, URLResponse?, Error?) -> URLSessionDataTask {
-//		let task = self.dataTask(with: request) {
-//			data, response, error in
-//
-//
-//		}
-//		task.resume()
-//
-//		return task
-//	}
-}
-
