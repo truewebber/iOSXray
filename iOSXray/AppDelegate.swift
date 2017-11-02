@@ -7,12 +7,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 	var navigationController: UINavigationController?
 
 	var defaults = UserDefaults.standard
-
-	var storedConfig: Config!
-	var networkConfig: Config!
+	var ApplicationConfig: Config!
 
 	func application(_ application: UIApplication,
 	                 didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+
+		let domain = Bundle.main.bundleIdentifier!
+		self.defaults.removePersistentDomain(forName: domain)
+		self.defaults.synchronize()
+		print(Array(self.defaults.dictionaryRepresentation().keys).count)
+
 		// Custom View Controller
 		let viewController: UIViewController = ViewController()
 		self.navigationController = UINavigationController()
@@ -30,12 +34,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 		var jsonNetworkConfig: Data!
 		var jsonStoredConfig: Data!
 
+		var networkConfig: Config!
+		var storedConfig: Config!
+
 		// get stored config
 		let jsonStrCfg = self.defaults.string(forKey: StoredConfigKey)
 		if jsonStrCfg != nil {
 			jsonStoredConfig = (jsonStrCfg!).data(using: .utf8)
-			self.storedConfig = try! JSONDecoder().decode(Config.self, from: jsonStoredConfig)
+			storedConfig = try! JSONDecoder().decode(Config.self, from: jsonStoredConfig)
 		}
+
+		let myGroup = DispatchGroup()
+		myGroup.enter()
 
 		// GET CONFIG FROM NETWORK
 		var req = URLRequest(url: URL(string: "http://192.168.0.38:8800/config")!)
@@ -46,48 +56,60 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 
 			if error != nil {
 				NSLog("Error make request, %@", error.debugDescription)
+				myGroup.leave()
 
 				return
 			}
 
 			jsonNetworkConfig = data
-			self.networkConfig = try! JSONDecoder().decode(Config.self, from: jsonNetworkConfig)
+			networkConfig = try! JSONDecoder().decode(Config.self, from: jsonNetworkConfig)
+
+			myGroup.leave()
 		}
 		task.resume()
 
-		if self.networkConfig == nil && self.storedConfig == nil {
+		myGroup.wait()
+
+		if networkConfig == nil && storedConfig == nil {
 			NSLog("Network is unavailable and no stored config.")
-			//Alert about connection
 
 			return true
 		}
 
-		if self.storedConfig == nil && self.networkConfig != nil {
+		if storedConfig == nil && networkConfig != nil {
 			NSLog("First start, set new config")
+
 			// set new config
+			self.cacheNewConfig(cfg: jsonNetworkConfig)
+
+			// config
+			self.ApplicationConfig = networkConfig
 
 			return true
 		}
 
-		if self.storedConfig != nil && self.networkConfig == nil {
+		if storedConfig != nil && networkConfig == nil {
 			NSLog("Network is unavailable, use old stored config")
 
+			// config
+			self.ApplicationConfig = storedConfig
+
 			return true
 		}
 
-		if self.storedConfig.uniqueConfigHash != self.networkConfig.uniqueConfigHash {
+		if storedConfig.uniqueConfigHash != networkConfig.uniqueConfigHash {
 			NSLog("Stored config is not actual, set new config")
+
 			// set new config
+			self.cacheNewConfig(cfg: jsonNetworkConfig)
+
+			// config
+			self.ApplicationConfig = networkConfig
 
 			return true
 		}
 
-//		let jsonData = jsonString.data(encoding: .utf8)!
-//		let jsonString = String(data: jsonNetworkConfig, encoding: .utf8) {
-//		self.defaults.set(jsonString, forKey: StoredConfigKey)
-
-//		self.storedConfig = try! decoder.decode(Config.self, from: jsonStoredConfig)
-//		self.defaults.set(String(data: jsonNetworkConfig!, encoding: String.Encoding.utf8), forKey: StoredConfigKey)
+		NSLog("Stored config is actual")
 
 		return true
 	}
@@ -120,5 +142,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 	func applicationWillTerminate(_ application: UIApplication) {
 		// Called when the application is about to terminate.
 		// Save data if appropriate. See also applicationDidEnterBackground:.
+	}
+
+	func cacheNewConfig(cfg: Data!) {
+		self.defaults.set(String(data: cfg!, encoding: String.Encoding.utf8), forKey: StoredConfigKey)
 	}
 }
