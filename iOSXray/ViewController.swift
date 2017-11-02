@@ -34,7 +34,9 @@ class ViewController: UIViewController {
 				}
 			}))
 
+			NSLog("WAIT until tap exit")
 			self.present(alert, animated: true, completion: nil)
+
 			return
 		}
 
