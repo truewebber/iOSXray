@@ -12,10 +12,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 	func application(_ application: UIApplication,
 	                 didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-		let domain = Bundle.main.bundleIdentifier!
-		self.defaults.removePersistentDomain(forName: domain)
-		self.defaults.synchronize()
-		print(Array(self.defaults.dictionaryRepresentation().keys).count)
+//		let domain = Bundle.main.bundleIdentifier!
+//		self.defaults.removePersistentDomain(forName: domain)
+//		self.defaults.synchronize()
+//		print(Array(self.defaults.dictionaryRepresentation().keys).count)
 
 		// Custom View Controller
 		let viewController: UIViewController = ViewController()
@@ -120,6 +120,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 			return true
 		}
 
+		self.ApplicationConfig = storedConfig
 		NSLog("Stored config is actual")
 
 		return true

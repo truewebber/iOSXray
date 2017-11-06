@@ -55,8 +55,6 @@ class ViewController: UIViewController {
 			let uiHeight = (uiView.labelHeight != -1) ? uiView.labelHeight : Int((self.window?.frame.height)!);
 			let uiWidth = (uiView.labelWidth != -1) ? uiView.labelWidth : Int((self.window?.frame.width)!);
 
-			NSLog("\(uiWidth) x \(uiHeight)")
-
 			let myView: UIView = UIView(frame: CGRect(
 					origin: CGPoint(x: uiView.posX, y: uiView.posY),
 					size: CGSize(width: uiWidth, height: uiHeight)
@@ -77,7 +75,18 @@ class ViewController: UIViewController {
 					blue: CGFloat(uiView.text.color.blue), alpha: CGFloat(uiView.text.color.alpha)
 			)
 			myLabel.font = myLabel.font.withSize(CGFloat(uiView.text.textSize))
-			myLabel.textAlignment = .center
+			switch uiView.text.align {
+			case ".left":
+				myLabel.textAlignment = .left
+			case ".right":
+				myLabel.textAlignment = .right
+			case ".center":
+				myLabel.textAlignment = .center
+			case ".justified":
+				myLabel.textAlignment = .justified
+			default:
+				myLabel.textAlignment = .natural
+			}
 			self.view.addSubview(myLabel)
 		}
 
