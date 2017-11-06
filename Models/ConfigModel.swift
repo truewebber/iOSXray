@@ -27,18 +27,19 @@ struct Config: Codable {
 			var labelWidth: Int
 			var posX: Int
 			var posY: Int
+			var bgColor: Color
 			var text: Text
 
 			private enum CodingKeys: String, CodingKey {
 				case labelHeight = "label_height", labelWidth = "label_width",
-				     posX = "pos_x", posY = "pos_y", text = "text"
+				     posX = "pos_x", posY = "pos_y", bgColor = "bg_color", text = "text"
 			}
 
 			struct Text: Codable {
 				var align: String
 				var color: Color
 				var text: String
-				var textSize: Int
+				var textSize: Float
 
 				private enum CodingKeys: String, CodingKey {
 					case align = "align", color = "color", text = "text", textSize = "text_size"
@@ -49,10 +50,10 @@ struct Config: Codable {
 }
 
 struct Color: Codable {
-	var alpha: Int
-	var blue: Int
-	var green: Int
-	var red: Int
+	var alpha: Float
+	var blue: Float
+	var green: Float
+	var red: Float
 
 	private enum CodingKeys: String, CodingKey {
 		case alpha = "alpha", blue = "blue", green = "green", red = "red"

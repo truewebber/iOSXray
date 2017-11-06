@@ -47,11 +47,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 		let myGroup = DispatchGroup()
 		myGroup.enter()
 
+		//create session without caches
+		let config = URLSessionConfiguration.default
+		config.requestCachePolicy = .reloadIgnoringLocalCacheData
+		config.urlCache = nil
+
+		let session = URLSession.init(configuration: config)
+
 		// GET CONFIG FROM NETWORK
-		var req = URLRequest(url: URL(string: "http://192.168.0.38:8800/config")!)
+		var req = URLRequest(url: URL(string: "http://xray.truewebber.com/config.json")!)
 		req.httpMethod = "GET"
 
-		let task = URLSession.shared.dataTask(with: req as URLRequest) {
+		let task = session.dataTask(with: req as URLRequest) {
 			data, response, error in
 
 			if error != nil {
@@ -62,7 +69,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 			}
 
 			jsonNetworkConfig = data
-			networkConfig = try! JSONDecoder().decode(Config.self, from: jsonNetworkConfig)
+			do {
+				networkConfig = try JSONDecoder().decode(Config.self, from: jsonNetworkConfig)
+			} catch {
+				NSLog("Error deserializing JSON: \(error)")
+			}
 
 			myGroup.leave()
 		}
