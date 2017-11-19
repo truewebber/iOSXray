@@ -28,7 +28,6 @@ class ViewController: UIViewController {
 					exit(10)
 				case .cancel:
 					NSLog("Alert Cancel")
-
 				case .destructive:
 					NSLog("Alert Destructive")
 				}
@@ -41,53 +40,57 @@ class ViewController: UIViewController {
 		}
 
 		self.view.backgroundColor = UIColor.init(
-				red: CGFloat(delegate.ApplicationConfig.views[0].bgColor.red),
-				green: CGFloat(delegate.ApplicationConfig.views[0].bgColor.green),
-				blue: CGFloat(delegate.ApplicationConfig.views[0].bgColor.blue),
-				alpha: CGFloat(delegate.ApplicationConfig.views[0].bgColor.alpha)
+				red: CGFloat(delegate.ApplicationConfig.screens[0].bgColor.red),
+				green: CGFloat(delegate.ApplicationConfig.screens[0].bgColor.green),
+				blue: CGFloat(delegate.ApplicationConfig.screens[0].bgColor.blue),
+				alpha: CGFloat(delegate.ApplicationConfig.screens[0].bgColor.alpha)
 		)
 
-		//		let myView: UIView = UIView(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: CGSize(width: (self.window?.frame.width)!, height: 80)))
-		//		myView.backgroundColor = UIColor.init(red: 0.25, green: 0.37, blue: 0.53, alpha: 1)
-		//		self.view.addSubview(myView)
+		for myUiView in delegate.ApplicationConfig.screens[0].views {
+			let uiViewHeight = (myUiView.height != -1) ? myUiView.height : Int((self.window?.frame.height)!);
+			let uiViewWidth = (myUiView.width != -1) ? myUiView.width : Int((self.window?.frame.width)!);
 
-		for uiView in delegate.ApplicationConfig.views[0].labels {
-			let uiHeight = (uiView.labelHeight != -1) ? uiView.labelHeight : Int((self.window?.frame.height)!);
-			let uiWidth = (uiView.labelWidth != -1) ? uiView.labelWidth : Int((self.window?.frame.width)!);
-
+			//views
 			let myView: UIView = UIView(frame: CGRect(
-					origin: CGPoint(x: uiView.posX, y: uiView.posY),
-					size: CGSize(width: uiWidth, height: uiHeight)
+					origin: CGPoint(x: myUiView.posX, y: myUiView.posY),
+					size: CGSize(width: uiViewWidth, height: uiViewHeight)
 			))
 			myView.backgroundColor = UIColor.init(
-					red: CGFloat(uiView.bgColor.red), green: CGFloat(uiView.bgColor.green),
-					blue: CGFloat(uiView.bgColor.blue), alpha: CGFloat(uiView.bgColor.alpha)
+					red: CGFloat(myUiView.bgColor.red), green: CGFloat(myUiView.bgColor.green),
+					blue: CGFloat(myUiView.bgColor.blue), alpha: CGFloat(myUiView.bgColor.alpha)
 			)
 			self.view.addSubview(myView)
 
-			let myLabel = UILabel(frame: CGRect(
-					origin: CGPoint(x: uiView.posX, y: uiView.posY),
-					size: CGSize(width: uiWidth, height: uiHeight)
-			))
-			myLabel.text = uiView.text.text
-			myLabel.textColor = UIColor.init(
-					red: CGFloat(uiView.text.color.red), green: CGFloat(uiView.text.color.green),
-					blue: CGFloat(uiView.text.color.blue), alpha: CGFloat(uiView.text.color.alpha)
-			)
-			myLabel.font = myLabel.font.withSize(CGFloat(uiView.text.textSize))
-			switch uiView.text.align {
-			case ".left":
-				myLabel.textAlignment = .left
-			case ".right":
-				myLabel.textAlignment = .right
-			case ".center":
-				myLabel.textAlignment = .center
-			case ".justified":
-				myLabel.textAlignment = .justified
-			default:
-				myLabel.textAlignment = .natural
+			//labels
+			for myUiLabel in myUiView.labels {
+				let uiLabelHeight = (myUiLabel.height != -1) ? myUiLabel.height : Int((self.window?.frame.height)!);
+				let uiLabelWidth = (myUiLabel.width != -1) ? myUiLabel.width : Int((self.window?.frame.width)!);
+
+				let myLabel = UILabel(frame: CGRect(
+						origin: CGPoint(x: myUiLabel.posX, y: myUiLabel.posY),
+						size: CGSize(width: uiLabelWidth, height: uiLabelHeight)
+				))
+				myLabel.text = myUiLabel.text
+				myLabel.textColor = UIColor.init(
+						red: CGFloat(myUiLabel.color.red), green: CGFloat(myUiLabel.color.green),
+						blue: CGFloat(myUiLabel.color.blue), alpha: CGFloat(myUiLabel.color.alpha)
+				)
+				myLabel.font = myLabel.font.withSize(CGFloat(myUiLabel.textSize))
+				switch myUiLabel.align {
+				case ".left":
+					myLabel.textAlignment = .left
+				case ".right":
+					myLabel.textAlignment = .right
+				case ".center":
+					myLabel.textAlignment = .center
+				case ".justified":
+					myLabel.textAlignment = .justified
+				default:
+					myLabel.textAlignment = .natural
+				}
+
+				myView.addSubview(myLabel)
 			}
-			self.view.addSubview(myLabel)
 		}
 
 		NSLog("DONE")

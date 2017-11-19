@@ -41,7 +41,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 		let jsonStrCfg = self.defaults.string(forKey: StoredConfigKey)
 		if jsonStrCfg != nil {
 			jsonStoredConfig = (jsonStrCfg!).data(using: .utf8)
-			storedConfig = try! JSONDecoder().decode(Config.self, from: jsonStoredConfig)
+
+			do {
+				storedConfig = try JSONDecoder().decode(Config.self, from: jsonStoredConfig)
+			} catch {}
 		}
 
 		let myGroup = DispatchGroup()
