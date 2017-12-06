@@ -1,52 +1,42 @@
 import UIKit
 
-let delegate = UIApplication.shared.delegate as! AppDelegate
-
 class ViewController: UIViewController {
 	var window: UIWindow?
+	var links: [Int: OnClick] = [:]
 
-	var ApplicationConfig: Config!
+	//	@objc func openScreen(id: String, _ sender: UITapGestureRecognizer) {
+	@objc func openScreen(sender: UITapGestureRecognizer) {
+		if let s = sender.view {
+			if let click = self.links[s.tag] {
+				if click.Action == "open_screen" {
+					if let screen = delegate.Screens[click.ID] {
+						let navController = UINavigationController(rootViewController: screen)
+						navController.isNavigationBarHidden = true
 
-	override func viewDidLoad() {
-		super.viewDidLoad()
-
-		//window and current view
-		self.window = UIWindow(frame: UIScreen.self.main.bounds)
-		self.view.backgroundColor = UIColor.white
-
-		if delegate.ApplicationConfig == nil {
-			//Alert about connection
-			let alert = UIAlertController(title: "Network is unavailable", message: "First launch required internet connection",
-			                              preferredStyle: UIAlertControllerStyle.alert)
-			alert.addAction(UIAlertAction(title: "Exit Application", style: .default, handler: {
-				action in
-
-				switch action.style {
-				case .default:
-					NSLog("Alert Default")
-
-					exit(10)
-				case .cancel:
-					NSLog("Alert Cancel")
-				case .destructive:
-					NSLog("Alert Destructive")
+						self.present(navController, animated:true, completion: nil)
+					} else {
+						NSLog("Error get screen by id ", click.ID)
+					}
+				} else {
+					NSLog("Action is not `open_screen`")
 				}
-			}))
-
-			NSLog("WAIT until tap exit")
-			self.present(alert, animated: true, completion: nil)
-
-			return
+			} else {
+				NSLog("Error get click history from links")
+			}
+		} else {
+			NSLog("Error get view")
 		}
+	}
 
+	func SetScreen(screen: Config.Screen) {
+		//		window and current view
+		self.window = UIWindow(frame: UIScreen.self.main.bounds)
 		self.view.backgroundColor = UIColor.init(
-				red: CGFloat(delegate.ApplicationConfig.screens[0].bgColor.red),
-				green: CGFloat(delegate.ApplicationConfig.screens[0].bgColor.green),
-				blue: CGFloat(delegate.ApplicationConfig.screens[0].bgColor.blue),
-				alpha: CGFloat(delegate.ApplicationConfig.screens[0].bgColor.alpha)
+				red: CGFloat(screen.bgColor.red), green: CGFloat(screen.bgColor.green),
+				blue: CGFloat(screen.bgColor.blue), alpha: CGFloat(screen.bgColor.alpha)
 		)
 
-		for myUiView in delegate.ApplicationConfig.screens[0].views {
+		for myUiView in screen.views {
 			let uiViewHeight = (myUiView.height != -1) ? myUiView.height : Int((self.window?.frame.height)!);
 			let uiViewWidth = (myUiView.width != -1) ? myUiView.width : Int((self.window?.frame.width)!);
 
@@ -60,6 +50,17 @@ class ViewController: UIViewController {
 					blue: CGFloat(myUiView.bgColor.blue), alpha: CGFloat(myUiView.bgColor.alpha)
 			)
 			self.view.addSubview(myView)
+
+			//clicks
+			if let click = myUiView.onClick {
+
+				if click.Action == "open_screen" {
+					let gesture = UITapGestureRecognizer(target: self, action: #selector(self.openScreen))
+					self.links[myView.tag] = click
+
+					myView.addGestureRecognizer(gesture)
+				}
+			}
 
 			//labels
 			for myUiLabel in myUiView.labels {
@@ -92,12 +93,13 @@ class ViewController: UIViewController {
 				myView.addSubview(myLabel)
 			}
 		}
+	}
 
-		NSLog("DONE")
+	override func viewDidLoad() {
+		super.viewDidLoad()
 	}
 
 	override func didReceiveMemoryWarning() {
 		super.didReceiveMemoryWarning()
-		// Dispose of any resources that can be recreated.
 	}
 }

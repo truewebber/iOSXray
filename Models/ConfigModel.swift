@@ -7,19 +7,21 @@ struct Config: Codable {
 	var authorization: String
 	var configVersion: Int
 	var uniqueConfigHash: String
+	var initScreen: String
 	var screens: [Screen]
 
 	private enum CodingKeys: String, CodingKey {
 		case apiVersion = "api_version", authorization = "authorization", configVersion = "config_version",
-		     uniqueConfigHash = "unique_config_hash", screens = "screens"
+		     uniqueConfigHash = "unique_config_hash", initScreen = "init_screen", screens = "screens"
 	}
 
 	struct Screen: Codable {
+		var screenId: String
 		var bgColor: Color
 		var views: [View]
 
 		private enum CodingKeys: String, CodingKey {
-			case bgColor = "bg_color", views = "views"
+			case screenId = "screen_id", bgColor = "bg_color", views = "views"
 		}
 	}
 }
@@ -30,12 +32,13 @@ struct View: Codable {
 	var posX: Int
 	var posY: Int
 	var bgColor: Color
+	var onClick: OnClick!
 	var views: [View]
 	var labels: [Label]
 
 	private enum CodingKeys: String, CodingKey {
 		case height = "height", width = "width", posX = "pos_x", posY = "pos_y",
-		     bgColor = "bg_color", views = "views", labels = "labels"
+		     bgColor = "bg_color", onClick = "on_click", views = "views", labels = "labels"
 	}
 }
 
@@ -52,6 +55,15 @@ struct Label: Codable {
 	private enum CodingKeys: String, CodingKey {
 		case height = "height", width = "width", posX = "pos_x", posY = "pos_y",
 		     align = "align", color = "color", text = "text", textSize = "text_size"
+	}
+}
+
+struct OnClick: Codable {
+	var Action: String
+	var ID: String
+
+	private enum CodingKeys: String, CodingKey {
+		case Action = "action", ID = "id"
 	}
 }
 

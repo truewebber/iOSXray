@@ -4,26 +4,26 @@ import UIKit
 class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDelegate {
 
 	var window: UIWindow?
-	var navigationController: UINavigationController?
-
 	var defaults = UserDefaults.standard
+	var NavigationController: UINavigationController!
+
 	var ApplicationConfig: Config!
+	var Screens: [String: UIViewController] = [:]
 
 	func application(_ application: UIApplication,
 	                 didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
-//		let domain = Bundle.main.bundleIdentifier!
-//		self.defaults.removePersistentDomain(forName: domain)
-//		self.defaults.synchronize()
-//		print(Array(self.defaults.dictionaryRepresentation().keys).count)
+		print(Array(self.defaults.dictionaryRepresentation().keys).count)
+		//		self.defaults.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+		//		self.defaults.synchronize()
 
 		// Custom View Controller
-		let viewController: UIViewController = ViewController()
-		self.navigationController = UINavigationController()
-		if let navigationController = self.navigationController {
+		let startController: UIViewController = StartController()
+		self.NavigationController = UINavigationController()
+		if let navigationController = self.NavigationController {
 			navigationController.delegate = self
-			navigationController.setNavigationBarHidden(true, animated: false)
-			navigationController.pushViewController(viewController, animated: false)
+			navigationController.setNavigationBarHidden(true, animated: true)
+			navigationController.pushViewController(startController, animated: true)
 			self.window = UIWindow(frame: UIScreen.self.main.bounds)
 			if let window = self.window {
 				window.rootViewController = navigationController
@@ -44,7 +44,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 
 			do {
 				storedConfig = try JSONDecoder().decode(Config.self, from: jsonStoredConfig)
-			} catch {}
+			} catch {
+			}
 		}
 
 		let myGroup = DispatchGroup()
@@ -65,7 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 			data, response, error in
 
 			if error != nil {
-				NSLog("Error make request, %@", error.debugDescription)
+				NSLog("Error make request: \(error.debugDescription)")
 				myGroup.leave()
 
 				return
@@ -75,7 +76,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 			do {
 				networkConfig = try JSONDecoder().decode(Config.self, from: jsonNetworkConfig)
 			} catch {
-				NSLog("Error deserializing JSON: \(error)")
+				NSLog("Error deserialization JSON: \(error)")
 			}
 
 			myGroup.leave()
