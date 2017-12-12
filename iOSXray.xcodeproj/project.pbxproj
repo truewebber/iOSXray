@@ -15,6 +15,7 @@
 		E14D95FF511CA9A72D7E5428 /* RemoreServerStorageConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14D966A5EB745106B42BDC8 /* RemoreServerStorageConfig.swift */; };
 		E14D96E277F2D58799D9C1F7 /* ConfigSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14D9382704FB5744E1AFCAE /* ConfigSourceProtocol.swift */; };
 		E14D99AAC13228FA2B256A83 /* FileStorageConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14D969C92BB1F08D753FA51 /* FileStorageConfig.swift */; };
+		E14D9C62668BD3FA93BA9B36 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14D97E34756A30EA1531DCF /* Config.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +29,7 @@
 		E14D966A5EB745106B42BDC8 /* RemoreServerStorageConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoreServerStorageConfig.swift; sourceTree = "<group>"; };
 		E14D969C92BB1F08D753FA51 /* FileStorageConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileStorageConfig.swift; sourceTree = "<group>"; };
 		E14D972A899CC99774968229 /* ConfigModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigModel.swift; sourceTree = "<group>"; };
+		E14D97E34756A30EA1531DCF /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -67,6 +69,7 @@
 				E14D9AF2A0D0A48A201BE355 /* Models */,
 				E14D90A5502BFCF40B4A11FE /* ViewController.swift */,
 				E14D95716CB2C8832699CDCB /* ConfigSource */,
+				E14D97E34756A30EA1531DCF /* Config.swift */,
 			);
 			path = iOSXray;
 			sourceTree = "<group>";
@@ -166,6 +169,7 @@
 				E14D96E277F2D58799D9C1F7 /* ConfigSourceProtocol.swift in Sources */,
 				E14D99AAC13228FA2B256A83 /* FileStorageConfig.swift in Sources */,
 				E14D95FF511CA9A72D7E5428 /* RemoreServerStorageConfig.swift in Sources */,
+				E14D9C62668BD3FA93BA9B36 /* Config.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -13,9 +13,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 	func application(_ application: UIApplication,
 	                 didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
 
+		//clear cache //for debug
 		print(Array(self.defaults.dictionaryRepresentation().keys).count)
-		//		self.defaults.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
-		//		self.defaults.synchronize()
+		self.defaults.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+		self.defaults.synchronize()
 
 		// Custom View Controller
 		let startController: UIViewController = StartController()
@@ -31,101 +32,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 			}
 		}
 
-		var jsonNetworkConfig: Data!
-		var jsonStoredConfig: Data!
-
-		var networkConfig: Config!
-		var storedConfig: Config!
-
-		// get stored config
-		let jsonStrCfg = self.defaults.string(forKey: StoredConfigKey)
-		if jsonStrCfg != nil {
-			jsonStoredConfig = (jsonStrCfg!).data(using: .utf8)
-
-			do {
-				storedConfig = try JSONDecoder().decode(Config.self, from: jsonStoredConfig)
-			} catch {
-			}
-		}
-
-		let myGroup = DispatchGroup()
-		myGroup.enter()
-
-		//create session without caches
-		let config = URLSessionConfiguration.default
-		config.requestCachePolicy = .reloadIgnoringLocalCacheData
-		config.urlCache = nil
-
-		let session = URLSession.init(configuration: config)
-
-		// GET CONFIG FROM NETWORK
-		var req = URLRequest(url: URL(string: "http://xray.truewebber.com/config.json")!)
-		req.httpMethod = "GET"
-
-		let task = session.dataTask(with: req as URLRequest) {
-			data, response, error in
-
-			if error != nil {
-				NSLog("Error make request: \(error.debugDescription)")
-				myGroup.leave()
-
-				return
-			}
-
-			jsonNetworkConfig = data
-			do {
-				networkConfig = try JSONDecoder().decode(Config.self, from: jsonNetworkConfig)
-			} catch {
-				NSLog("Error deserialization JSON: \(error)")
-			}
-
-			myGroup.leave()
-		}
-		task.resume()
-
-		myGroup.wait()
-
-		if networkConfig == nil && storedConfig == nil {
-			NSLog("Network is unavailable and no stored config.")
+		//config operations
+		let configFactory = ConfigFactory(artifact: RemoteServerStorageConfig())
+		let (config, error) = configFactory.GetConfig()
+		if error != nil {
+			NSLog("Error getting config: \(error.debugDescription)")
 
 			return true
 		}
 
-		if storedConfig == nil && networkConfig != nil {
-			NSLog("First start, set new config")
+//		cache config in all cases
+		self.defaults.set(String(data: config!, encoding: String.Encoding.utf8), forKey: StoredConfigKey)
 
-			// set new config
-			self.cacheNewConfig(cfg: jsonNetworkConfig)
-
-			// config
-			self.ApplicationConfig = networkConfig
-
-			return true
-		}
-
-		if storedConfig != nil && networkConfig == nil {
-			NSLog("Network is unavailable, use old stored config")
-
-			// config
-			self.ApplicationConfig = storedConfig
-
-			return true
-		}
-
-		if storedConfig.uniqueConfigHash != networkConfig.uniqueConfigHash {
-			NSLog("Stored config is not actual, set new config")
-
-			// set new config
-			self.cacheNewConfig(cfg: jsonNetworkConfig)
-
-			// config
-			self.ApplicationConfig = networkConfig
-
-			return true
-		}
-
-		self.ApplicationConfig = storedConfig
-		NSLog("Stored config is actual")
+		//enable config for app
+		self.ApplicationConfig = config
 
 		return true
 	}
@@ -158,9 +78,5 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 	func applicationWillTerminate(_ application: UIApplication) {
 		// Called when the application is about to terminate.
 		// Save data if appropriate. See also applicationDidEnterBackground:.
-	}
-
-	func cacheNewConfig(cfg: Data!) {
-		self.defaults.set(String(data: cfg!, encoding: String.Encoding.utf8), forKey: StoredConfigKey)
 	}
 }

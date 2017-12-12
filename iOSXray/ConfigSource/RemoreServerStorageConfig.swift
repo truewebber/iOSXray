@@ -6,6 +6,9 @@ class RemoteServerStorageConfig: ConfigSource {
 	var remoteConfig: Config?
 	var cacheConfig: Config?
 
+	init() {
+	}
+
 	func IsRemoteConfigChanged() -> (Bool, Error?) {
 		if self.cacheConfig == nil {
 			let (config, error) = self.ReadRemoteConfig()
@@ -23,8 +26,47 @@ class RemoteServerStorageConfig: ConfigSource {
 
 		var remoteHash: String = ""
 		//HTTP HEAD Request
-		remoteHash = "blya"
+		let myGroup = DispatchGroup()
+		myGroup.enter()
 
+		//create session without caches
+		let config = URLSessionConfiguration.default
+		config.requestCachePolicy = .reloadIgnoringLocalCacheData
+		config.urlCache = nil
+
+		let session = URLSession.init(configuration: config)
+
+		// GET CONFIG FROM NETWORK
+		var req = URLRequest(url: URL(string: "http://xray.truewebber.com/config.json")!)
+		req.httpMethod = "HEAD"
+
+		let task = session.dataTask(with: req as URLRequest) {
+			data, response, error in
+
+			if error != nil {
+				NSLog("Error make request: \(error.debugDescription)")
+				myGroup.leave()
+
+				return
+			}
+
+			//read headers
+			if let httpResponse = response as? HTTPURLResponse {
+				if let hash = httpResponse.allHeaderFields["Config-Hash"] as? String {
+					remoteHash = hash
+				}
+			}
+
+			myGroup.leave()
+		}
+		task.resume()
+
+		myGroup.wait()
+
+		if remoteHash == "" {
+			NSLog("Error read config hash")
+			return (false, nil)
+		}
 
 		if remoteHash != self.cacheConfig?.uniqueConfigHash {
 			return (true, nil)
