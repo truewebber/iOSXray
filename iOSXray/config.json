@@ -1,0 +1,234 @@
+{
+  "unique_config_hash": "config_0.0.1_test_1.2.1",
+  "config_version": 1,
+  "api_version": 1,
+  "authorization": "auth-hash",
+  "init_screen": "screen3",
+  "screens": [
+    {
+      "screen_id": "screen1",
+      "bg_color": {
+        "red": 1,
+        "green": 1,
+        "blue": 1,
+        "alpha": 1
+      },
+      "views": [
+        {
+          "pos_x": 0,
+          "pos_y": 20,
+          "width": -1,
+          "height": 60,
+          "bg_color": {
+            "red": 0.25,
+            "green": 0.37,
+            "blue": 0.53,
+            "alpha": 1
+          },
+          "views": [],
+          "labels": [
+            {
+              "pos_x": 0,
+              "pos_y": 0,
+              "width": -1,
+              "height": 60,
+              "text": "XRay",
+              "align": ".center",
+              "text_size": 24,
+              "color": {
+                "red": 1,
+                "green": 1,
+                "blue": 1,
+                "alpha": 1
+              }
+            }
+          ]
+        },
+        {
+          "pos_x": 0,
+          "pos_y": 100,
+          "width": -1,
+          "height": 30,
+          "bg_color": {
+            "red": 0.9,
+            "green": 0.9,
+            "blue": 0.9,
+            "alpha": 1
+          },
+          "on_click": {
+            "action": "open_screen",
+            "id": "screen2"
+          },
+          "views": [],
+          "labels": [
+            {
+              "pos_x": 0,
+              "pos_y": 0,
+              "width": -1,
+              "height": 30,
+              "text": "go to another screen",
+              "align": ".center",
+              "text_size": 10,
+              "color": {
+                "red": 0,
+                "green": 0,
+                "blue": 0,
+                "alpha": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "screen_id": "screen2",
+      "bg_color": {
+        "red": 1,
+        "green": 1,
+        "blue": 1,
+        "alpha": 1
+      },
+      "views": [
+        {
+          "pos_x": 0,
+          "pos_y": 20,
+          "width": -1,
+          "height": 20,
+          "bg_color": {
+            "red": 1,
+            "green": 1,
+            "blue": 1,
+            "alpha": 0
+          },
+          "on_click": {
+            "action": "open_screen",
+            "id": "screen1"
+          },
+          "views": [],
+          "labels": [
+            {
+              "pos_x": 20,
+              "pos_y": 0,
+              "width": -1,
+              "height": 20,
+              "text": "back",
+              "align": ".left",
+              "text_size": 14,
+              "color": {
+                "red": 0.1,
+                "green": 0.1,
+                "blue": 0.1,
+                "alpha": 1
+              }
+            }
+          ]
+        },
+        {
+          "pos_x": 0,
+          "pos_y": 60,
+          "width": -1,
+          "height": -1,
+          "bg_color": {
+            "red": 1,
+            "green": 1,
+            "blue": 1,
+            "alpha": 1
+          },
+          "views": [],
+          "labels": [
+            {
+              "pos_x": 0,
+              "pos_y": 0,
+              "width": -1,
+              "height": 200,
+              "text": "Lorem ipsum dolor sit amet, \n consectetur adipiscing elit. Aliquam sodales leo metus, sed ultricies ante dignissim eu. Donec eros purus, venenatis ac ipsum sit amet, accumsan efficitur mi. Donec finibus facilisis laoreet. Aenean sodales nisl nulla, et tincidunt erat varius rhoncus. Nulla lacinia sem turpis, quis viverra odio dapibus et. Praesent rutrum velit eget sem iaculis sodales. Vivamus eleifend in orci sit amet blandit. Morbi finibus sodales finibus. Vestibulum ornare, metus aliquet fringilla efficitur, sem tortor aliquam lorem, nec mattis nibh enim at orci. Cras augue diam, mattis egestas laoreet eu, vulputate ac nisi. Donec ante turpis, pharetra vel lacus at, rhoncus imperdiet arcu. Etiam ante urna, consectetur quis massa a, pretium lacinia massa. Cras consectetur hendrerit tortor, nec efficitur nibh. Nulla pellentesque velit vitae mi rhoncus dapibus. Phasellus sed nulla sem. Vestibulum tincidunt quam nec orci maximus, quis faucibus diam maximus. Vestibulum lacinia velit nisi, eget rhoncus nibh auctor a. Donec cursus mauris neque, in dapibus enim rutrum nec. Sed sit amet sagittis nunc. Aenean mattis laoreet diam non pharetra. Maecenas ac diam suscipit, mattis orci ullamcorper, posuere ante. Etiam lacinia odio in ante feugiat, eget tempus lectus pellentesque. Ut suscipit mollis nulla, non ultrices mi ornare id. Ut sem dui, tempus quis quam quis, cursus egestas orci. Curabitur sed ipsum eleifend, maximus lacus id, porttitor est. Maecenas volutpat enim vitae tempus convallis. Phasellus tempus varius est, ut fermentum nulla placerat eu. Donec ac neque euismod enim feugiat mattis in non massa. Aliquam nec mauris vel augue condimentum suscipit at at orci. Duis ultrices enim in libero efficitur, mattis luctus nisi hendrerit. Aenean vitae pellentesque lorem, quis malesuada ex.",
+              "align": ".left",
+              "text_size": 10,
+              "color": {
+                "red": 0,
+                "green": 0,
+                "blue": 0,
+                "alpha": 1
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "screen_id": "screen3",
+      "bg_color": {
+        "red": 1,
+        "green": 1,
+        "blue": 1,
+        "alpha": 1
+      },
+      "views": [
+        {
+          "pos_x": 0,
+          "pos_y": 200,
+          "width": -1,
+          "height": 60,
+          "bg_color": {
+            "red": 0,
+            "green": 0,
+            "blue": 0,
+            "alpha": 0.08
+          },
+          "views": [],
+          "labels": [
+            {
+              "pos_x": 0,
+              "pos_y": 0,
+              "width": -1,
+              "height": 60,
+              "text": "Greetings, my dear  user!",
+              "align": ".center",
+              "text_size": 30,
+              "color": {
+                "red": 0,
+                "green": 0,
+                "blue": 0,
+                "alpha": 1
+              }
+            }
+          ]
+        },
+        {
+          "pos_x": 0,
+          "pos_y": 280,
+          "width": -1,
+          "height": 20,
+          "bg_color": {
+            "red": 0,
+            "green": 0,
+            "blue": 0,
+            "alpha": 0
+          },
+          "on_click": {
+            "action": "open_screen",
+            "id": "screen1"
+          },
+          "views": [],
+          "labels": [
+            {
+              "pos_x": 0,
+              "pos_y": 0,
+              "width": -1,
+              "height": 20,
+              "text": "tap to continue",
+              "align": ".center",
+              "text_size": 14,
+              "color": {
+                "red": 0,
+                "green": 0,
+                "blue": 0.6,
+                "alpha": 1
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

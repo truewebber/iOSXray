@@ -7,29 +7,31 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		644ECD741F9FDB1700B540D6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644ECD731F9FDB1700B540D6 /* AppDelegate.swift */; };
-		644ECD761F9FDB1700B540D6 /* StartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 644ECD751F9FDB1700B540D6 /* StartController.swift */; };
-		64894C1A1FA54D2000BAF081 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 64894C191FA54D2000BAF081 /* Images.xcassets */; };
-		E14D901366922A501290D82B /* ConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14D972A899CC99774968229 /* ConfigModel.swift */; };
-		E14D9098E5CD9899D9D7FEB8 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14D90A5502BFCF40B4A11FE /* ViewController.swift */; };
-		E14D95FF511CA9A72D7E5428 /* RemoreServerStorageConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14D966A5EB745106B42BDC8 /* RemoreServerStorageConfig.swift */; };
-		E14D96E277F2D58799D9C1F7 /* ConfigSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14D9382704FB5744E1AFCAE /* ConfigSourceProtocol.swift */; };
-		E14D99AAC13228FA2B256A83 /* FileStorageConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14D969C92BB1F08D753FA51 /* FileStorageConfig.swift */; };
-		E14D9C62668BD3FA93BA9B36 /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14D97E34756A30EA1531DCF /* Config.swift */; };
+		E14D92DB9F4E54768805F575 /* ConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14D9E592EC5FCD7E17669F2 /* ConfigModel.swift */; };
+		E14D93C4AC47E5689115A169 /* RemoreServerStorageConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14D9159BD8F4628D4E6AC3E /* RemoreServerStorageConfig.swift */; };
+		E14D949A7EBF778B36CE3139 /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = E14D923E27ABFE8CD7968A15 /* config.json */; };
+		E14D9702120D6C8075762500 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14D9EDA7FE23F86F44EA5F7 /* ViewController.swift */; };
+		E14D98A9712E22DC358B868E /* Config.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14D99D88F4B3AE521E7D040 /* Config.swift */; };
+		E14D9A92CE186F953DCE4F9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = E14D9F0B20185307F716232D /* Images.xcassets */; };
+		E14D9B5B5D0A12393F3F5835 /* ConfigSourceProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14D9835E0A40C4DF4674EF2 /* ConfigSourceProtocol.swift */; };
+		E14D9C491C3FC97755C7525C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14D91960736619FA6D61947 /* AppDelegate.swift */; };
+		E14D9D310259FC9E5CAFD09F /* StartController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14D959C3EA0557C620D421E /* StartController.swift */; };
+		E14D9D673190EDEB83D64D89 /* FileStorageConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14D96C38A6A191A3629E0EB /* FileStorageConfig.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		644ECD701F9FDB1700B540D6 /* iOSXray.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iOSXray.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		644ECD731F9FDB1700B540D6 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		644ECD751F9FDB1700B540D6 /* StartController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartController.swift; sourceTree = "<group>"; };
-		644ECD7F1F9FDB1700B540D6 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		64894C191FA54D2000BAF081 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
-		E14D90A5502BFCF40B4A11FE /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		E14D9382704FB5744E1AFCAE /* ConfigSourceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigSourceProtocol.swift; sourceTree = "<group>"; };
-		E14D966A5EB745106B42BDC8 /* RemoreServerStorageConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoreServerStorageConfig.swift; sourceTree = "<group>"; };
-		E14D969C92BB1F08D753FA51 /* FileStorageConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileStorageConfig.swift; sourceTree = "<group>"; };
-		E14D972A899CC99774968229 /* ConfigModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigModel.swift; sourceTree = "<group>"; };
-		E14D97E34756A30EA1531DCF /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		E14D9159BD8F4628D4E6AC3E /* RemoreServerStorageConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RemoreServerStorageConfig.swift; sourceTree = "<group>"; };
+		E14D91960736619FA6D61947 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		E14D923E27ABFE8CD7968A15 /* config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = config.json; sourceTree = "<group>"; };
+		E14D959C3EA0557C620D421E /* StartController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StartController.swift; sourceTree = "<group>"; };
+		E14D96C38A6A191A3629E0EB /* FileStorageConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileStorageConfig.swift; sourceTree = "<group>"; };
+		E14D9835E0A40C4DF4674EF2 /* ConfigSourceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigSourceProtocol.swift; sourceTree = "<group>"; };
+		E14D99D88F4B3AE521E7D040 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
+		E14D9C52A552F0C7E1ED0101 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
+		E14D9E592EC5FCD7E17669F2 /* ConfigModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigModel.swift; sourceTree = "<group>"; };
+		E14D9EDA7FE23F86F44EA5F7 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		E14D9F0B20185307F716232D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -46,8 +48,8 @@
 		644ECD671F9FDB1700B540D6 = {
 			isa = PBXGroup;
 			children = (
-				644ECD721F9FDB1700B540D6 /* iOSXray */,
 				644ECD711F9FDB1700B540D6 /* Products */,
+				E14D9CB72C054C1CF582C674 /* iOSXray */,
 			);
 			sourceTree = "<group>";
 		};
@@ -59,38 +61,39 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		644ECD721F9FDB1700B540D6 /* iOSXray */ = {
+		E14D90A2338A9C5E2C32A76F /* ConfigSource */ = {
 			isa = PBXGroup;
 			children = (
-				644ECD731F9FDB1700B540D6 /* AppDelegate.swift */,
-				644ECD751F9FDB1700B540D6 /* StartController.swift */,
-				644ECD7F1F9FDB1700B540D6 /* Info.plist */,
-				64894C191FA54D2000BAF081 /* Images.xcassets */,
-				E14D9AF2A0D0A48A201BE355 /* Models */,
-				E14D90A5502BFCF40B4A11FE /* ViewController.swift */,
-				E14D95716CB2C8832699CDCB /* ConfigSource */,
-				E14D97E34756A30EA1531DCF /* Config.swift */,
-			);
-			path = iOSXray;
-			sourceTree = "<group>";
-		};
-		E14D95716CB2C8832699CDCB /* ConfigSource */ = {
-			isa = PBXGroup;
-			children = (
-				E14D9382704FB5744E1AFCAE /* ConfigSourceProtocol.swift */,
-				E14D969C92BB1F08D753FA51 /* FileStorageConfig.swift */,
-				E14D966A5EB745106B42BDC8 /* RemoreServerStorageConfig.swift */,
+				E14D9835E0A40C4DF4674EF2 /* ConfigSourceProtocol.swift */,
+				E14D96C38A6A191A3629E0EB /* FileStorageConfig.swift */,
+				E14D9159BD8F4628D4E6AC3E /* RemoreServerStorageConfig.swift */,
 			);
 			path = ConfigSource;
 			sourceTree = "<group>";
 		};
-		E14D9AF2A0D0A48A201BE355 /* Models */ = {
+		E14D9148733178F654AF0777 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				E14D972A899CC99774968229 /* ConfigModel.swift */,
+				E14D9E592EC5FCD7E17669F2 /* ConfigModel.swift */,
 			);
 			path = Models;
 			sourceTree = SOURCE_ROOT;
+		};
+		E14D9CB72C054C1CF582C674 /* iOSXray */ = {
+			isa = PBXGroup;
+			children = (
+				E14D923E27ABFE8CD7968A15 /* config.json */,
+				E14D91960736619FA6D61947 /* AppDelegate.swift */,
+				E14D959C3EA0557C620D421E /* StartController.swift */,
+				E14D9C52A552F0C7E1ED0101 /* Info.plist */,
+				E14D9F0B20185307F716232D /* Images.xcassets */,
+				E14D9EDA7FE23F86F44EA5F7 /* ViewController.swift */,
+				E14D90A2338A9C5E2C32A76F /* ConfigSource */,
+				E14D99D88F4B3AE521E7D040 /* Config.swift */,
+				E14D9148733178F654AF0777 /* Models */,
+			);
+			path = iOSXray;
+			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
@@ -151,7 +154,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				64894C1A1FA54D2000BAF081 /* Images.xcassets in Resources */,
+				E14D949A7EBF778B36CE3139 /* config.json in Resources */,
+				E14D9A92CE186F953DCE4F9A /* Images.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -162,14 +166,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				644ECD761F9FDB1700B540D6 /* StartController.swift in Sources */,
-				644ECD741F9FDB1700B540D6 /* AppDelegate.swift in Sources */,
-				E14D901366922A501290D82B /* ConfigModel.swift in Sources */,
-				E14D9098E5CD9899D9D7FEB8 /* ViewController.swift in Sources */,
-				E14D96E277F2D58799D9C1F7 /* ConfigSourceProtocol.swift in Sources */,
-				E14D99AAC13228FA2B256A83 /* FileStorageConfig.swift in Sources */,
-				E14D95FF511CA9A72D7E5428 /* RemoreServerStorageConfig.swift in Sources */,
-				E14D9C62668BD3FA93BA9B36 /* Config.swift in Sources */,
+				E14D9C491C3FC97755C7525C /* AppDelegate.swift in Sources */,
+				E14D9D310259FC9E5CAFD09F /* StartController.swift in Sources */,
+				E14D9702120D6C8075762500 /* ViewController.swift in Sources */,
+				E14D9B5B5D0A12393F3F5835 /* ConfigSourceProtocol.swift in Sources */,
+				E14D9D673190EDEB83D64D89 /* FileStorageConfig.swift in Sources */,
+				E14D93C4AC47E5689115A169 /* RemoreServerStorageConfig.swift in Sources */,
+				E14D98A9712E22DC358B868E /* Config.swift in Sources */,
+				E14D92DB9F4E54768805F575 /* ConfigModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -289,7 +293,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 57UWRPUUGM;
+				DEVELOPMENT_TEAM = MCY395P66Z;
 				INFOPLIST_FILE = iOSXray/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -308,7 +312,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = 57UWRPUUGM;
+				DEVELOPMENT_TEAM = MCY395P66Z;
 				INFOPLIST_FILE = iOSXray/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
