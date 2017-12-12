@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		E14D92DB9F4E54768805F575 /* ConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14D9E592EC5FCD7E17669F2 /* ConfigModel.swift */; };
+		E14D9086A16EEBD976FB0E92 /* ConfigModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14D9FDED1D5DB11D4BAD3A6 /* ConfigModel.swift */; };
 		E14D93C4AC47E5689115A169 /* RemoreServerStorageConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14D9159BD8F4628D4E6AC3E /* RemoreServerStorageConfig.swift */; };
 		E14D949A7EBF778B36CE3139 /* config.json in Resources */ = {isa = PBXBuildFile; fileRef = E14D923E27ABFE8CD7968A15 /* config.json */; };
 		E14D9702120D6C8075762500 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14D9EDA7FE23F86F44EA5F7 /* ViewController.swift */; };
@@ -29,9 +29,9 @@
 		E14D9835E0A40C4DF4674EF2 /* ConfigSourceProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigSourceProtocol.swift; sourceTree = "<group>"; };
 		E14D99D88F4B3AE521E7D040 /* Config.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Config.swift; sourceTree = "<group>"; };
 		E14D9C52A552F0C7E1ED0101 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.info; path = Info.plist; sourceTree = "<group>"; };
-		E14D9E592EC5FCD7E17669F2 /* ConfigModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigModel.swift; sourceTree = "<group>"; };
 		E14D9EDA7FE23F86F44EA5F7 /* ViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		E14D9F0B20185307F716232D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		E14D9FDED1D5DB11D4BAD3A6 /* ConfigModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConfigModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,13 +71,13 @@
 			path = ConfigSource;
 			sourceTree = "<group>";
 		};
-		E14D9148733178F654AF0777 /* Models */ = {
+		E14D97EBF42333B352399A00 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				E14D9E592EC5FCD7E17669F2 /* ConfigModel.swift */,
+				E14D9FDED1D5DB11D4BAD3A6 /* ConfigModel.swift */,
 			);
 			path = Models;
-			sourceTree = SOURCE_ROOT;
+			sourceTree = "<group>";
 		};
 		E14D9CB72C054C1CF582C674 /* iOSXray */ = {
 			isa = PBXGroup;
@@ -90,7 +90,7 @@
 				E14D9EDA7FE23F86F44EA5F7 /* ViewController.swift */,
 				E14D90A2338A9C5E2C32A76F /* ConfigSource */,
 				E14D99D88F4B3AE521E7D040 /* Config.swift */,
-				E14D9148733178F654AF0777 /* Models */,
+				E14D97EBF42333B352399A00 /* Models */,
 			);
 			path = iOSXray;
 			sourceTree = "<group>";
@@ -173,7 +173,7 @@
 				E14D9D673190EDEB83D64D89 /* FileStorageConfig.swift in Sources */,
 				E14D93C4AC47E5689115A169 /* RemoreServerStorageConfig.swift in Sources */,
 				E14D98A9712E22DC358B868E /* Config.swift in Sources */,
-				E14D92DB9F4E54768805F575 /* ConfigModel.swift in Sources */,
+				E14D9086A16EEBD976FB0E92 /* ConfigModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
