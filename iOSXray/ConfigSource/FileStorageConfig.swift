@@ -17,7 +17,7 @@ class FileStorageConfig: ConfigSource {
 
 			if config == nil {
 				NSLog("Config read from file, but returns nil")
-				return (false, nil)
+				return (false, ConfigError(kind: .configTextEmpty))
 			}
 
 			self.remoteConfig = config
@@ -31,7 +31,7 @@ class FileStorageConfig: ConfigSource {
 			}
 
 			if config == nil {
-				return (true, nil)
+				return (true, ConfigError(kind: .configTextEmpty))
 			}
 
 			self.remoteConfig = config
@@ -58,7 +58,7 @@ class FileStorageConfig: ConfigSource {
 		let dataFromFile = (textFromFile).data(using: .utf8)
 		if dataFromFile == nil {
 			NSLog("Config str is not nil, but decoded to data nil")
-			return (nil, nil)
+			return (nil, ConfigError(kind: .configTextEmpty))
 		}
 
 		return self.DecodeConfig(data: dataFromFile!)

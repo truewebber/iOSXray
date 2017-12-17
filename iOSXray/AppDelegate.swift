@@ -15,8 +15,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 
 		//clear cache //for debug
 		print(Array(self.defaults.dictionaryRepresentation().keys).count)
-		self.defaults.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
-		self.defaults.synchronize()
+//		self.defaults.removePersistentDomain(forName: Bundle.main.bundleIdentifier!)
+//		self.defaults.synchronize()
 
 		// Custom View Controller
 		let startController: UIViewController = StartController()
@@ -41,11 +41,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UINavigationControllerDel
 			return true
 		}
 
-//		cache config in all cases
-		self.defaults.set(String(data: config!, encoding: String.Encoding.utf8), forKey: StoredConfigKey)
+		//cache config in all cases
+		if let encodedData = try? JSONEncoder().encode(config) {
+			NSLog("Add config to cache")
+			self.defaults.set(String(data: encodedData, encoding: String.Encoding.utf8), forKey: StoredConfigKey)
+		}
 
 		//enable config for app
 		self.ApplicationConfig = config
+
+		NSLog("DONE")
 
 		return true
 	}

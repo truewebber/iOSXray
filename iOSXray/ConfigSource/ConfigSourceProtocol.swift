@@ -11,6 +11,14 @@ protocol ConfigSource {
 	func ReadLocalConfig() -> (Config?, Error?)
 }
 
+struct ConfigError: Error {
+	enum ErrorKind {
+		case configTextEmpty
+	}
+
+	let kind: ErrorKind
+}
+
 extension ConfigSource {
 	func DecodeConfig(data: Data) -> (Config?, Error?) {
 		var config: Config?
@@ -26,17 +34,21 @@ extension ConfigSource {
 	}
 
 	func ReadLocalConfig() -> (Config?, Error?) {
-		let textFromCache = UserDefaults.standard.string(forKey: StoredConfigKey)
-		if textFromCache == nil {
-			return (nil, nil)
+		if self.cacheConfig == nil {
+			let textFromCache = UserDefaults.standard.string(forKey: StoredConfigKey)
+			if textFromCache == nil {
+				return (nil, nil)
+			}
+
+			let dataFromCache = (textFromCache!).data(using: .utf8)
+			if dataFromCache == nil {
+				NSLog("Config str is not nil, but decoded to data nil")
+				return (nil, ConfigError(kind: .configTextEmpty))
+			}
+
+			return self.DecodeConfig(data: dataFromCache!)
 		}
 
-		let dataFromCache = (textFromCache!).data(using: .utf8)
-		if dataFromCache == nil {
-			NSLog("Config str is not nil, but decoded to data nil")
-			return (nil, nil)
-		}
-
-		return self.DecodeConfig(data: dataFromCache!)
+		return (self.cacheConfig, nil)
 	}
 }

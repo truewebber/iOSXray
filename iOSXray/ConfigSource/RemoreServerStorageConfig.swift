@@ -1,5 +1,13 @@
 import Foundation
 
+struct RemoteConfigError: Error {
+	enum ErrorKind {
+		case hashHeaderEmpty
+	}
+
+	let kind: ErrorKind
+}
+
 class RemoteServerStorageConfig: ConfigSource {
 	var defaults = UserDefaults.standard
 
@@ -11,18 +19,25 @@ class RemoteServerStorageConfig: ConfigSource {
 
 	func IsRemoteConfigChanged() -> (Bool, Error?) {
 		if self.cacheConfig == nil {
-			let (config, error) = self.ReadRemoteConfig()
+			NSLog("Cached config is nil")
+
+			let (cache, error) = self.ReadLocalConfig()
 			if error != nil {
+				NSLog("Error read cached config")
 				NSLog("Error read config from cache: \(error.debugDescription)")
 				return (false, error)
 			}
 
-			if config == nil {
+			if cache == nil {
+				NSLog("Read cached config is nil")
 				return (true, nil)
 			}
 
-			self.remoteConfig = config
+			NSLog("Got cached config")
+			self.cacheConfig = cache
 		}
+
+		NSLog("we have cached config")
 
 		var remoteHash: String = ""
 		//HTTP HEAD Request
@@ -37,9 +52,10 @@ class RemoteServerStorageConfig: ConfigSource {
 		let session = URLSession.init(configuration: config)
 
 		// GET CONFIG FROM NETWORK
-		var req = URLRequest(url: URL(string: "http://xray.truewebber.com/config.json")!)
+		var req = URLRequest(url: URL(string: "http://xray.truewebber.com/config.php")!)
 		req.httpMethod = "HEAD"
 
+		NSLog("start head request")
 		let task = session.dataTask(with: req as URLRequest) {
 			data, response, error in
 
@@ -53,6 +69,7 @@ class RemoteServerStorageConfig: ConfigSource {
 			//read headers
 			if let httpResponse = response as? HTTPURLResponse {
 				if let hash = httpResponse.allHeaderFields["Config-Hash"] as? String {
+					NSLog("Got remote hash: \(hash)")
 					remoteHash = hash
 				}
 			}
@@ -65,27 +82,60 @@ class RemoteServerStorageConfig: ConfigSource {
 
 		if remoteHash == "" {
 			NSLog("Error read config hash")
-			return (false, nil)
+			return (false, RemoteConfigError(kind: .hashHeaderEmpty))
 		}
 
 		if remoteHash != self.cacheConfig?.uniqueConfigHash {
+			NSLog("Remote hash is NOT equal cached")
 			return (true, nil)
 		}
 
+		NSLog("Remote hash is equal cached")
 		return (false, nil)
 	}
 
 	func ReadRemoteConfig() -> (Config?, Error?) {
-		//HTTP GET Request
+		//HTTP HEAD Request
+		let myGroup = DispatchGroup()
+		myGroup.enter()
 
-		let textFromFile = "bla bla json text must be here"
-		let dataFromFile = (textFromFile).data(using: .utf8)
-		if dataFromFile == nil {
+		//create session without caches
+		let config = URLSessionConfiguration.default
+		config.requestCachePolicy = .reloadIgnoringLocalCacheData
+		config.urlCache = nil
+
+		let session = URLSession.init(configuration: config)
+
+		// GET CONFIG FROM NETWORK
+		var configData: Data?
+		var req = URLRequest(url: URL(string: "http://xray.truewebber.com/config.php")!)
+		req.httpMethod = "GET"
+
+		let task = session.dataTask(with: req as URLRequest) {
+			data, response, error in
+
+			if error != nil {
+				NSLog("Error make request: \(error.debugDescription)")
+				myGroup.leave()
+
+				return
+			}
+
+			configData = data
+
+			myGroup.leave()
+		}
+		task.resume()
+
+		myGroup.wait()
+
+
+		if configData == nil {
 			NSLog("Config str is not nil, but decoded to data nil")
-			return (nil, nil)
+			return (nil, ConfigError(kind: .configTextEmpty))
 		}
 
-		return self.DecodeConfig(data: dataFromFile!)
+		return self.DecodeConfig(data: configData!)
 	}
 }
 

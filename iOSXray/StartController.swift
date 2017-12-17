@@ -47,8 +47,6 @@ class StartController: UIViewController {
 
 		delegate.NavigationController.present(delegate.Screens[delegate.ApplicationConfig.initScreen]!,
 		                                      animated: false, completion: nil)
-
-		NSLog("DONE")
 	}
 
 	override func didReceiveMemoryWarning() {
