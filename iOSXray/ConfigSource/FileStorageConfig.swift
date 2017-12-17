@@ -8,6 +8,21 @@ class FileStorageConfig: ConfigSource {
 	}
 
 	func IsRemoteConfigChanged() -> (Bool, Error?) {
+		if self.cacheConfig == nil {
+			let (config, error) = self.ReadRemoteConfig()
+			if error != nil {
+				NSLog("Error read config from cache: \(error.debugDescription)")
+				return (false, error)
+			}
+
+			if config == nil {
+				NSLog("Read cached config is nil")
+				return (true, nil)
+			}
+
+			self.remoteConfig = config
+		}
+
 		if self.remoteConfig == nil {
 			let (config, error) = self.ReadRemoteConfig()
 			if error != nil {
@@ -18,20 +33,6 @@ class FileStorageConfig: ConfigSource {
 			if config == nil {
 				NSLog("Config read from file, but returns nil")
 				return (false, ConfigError(kind: .configTextEmpty))
-			}
-
-			self.remoteConfig = config
-		}
-
-		if self.cacheConfig == nil {
-			let (config, error) = self.ReadRemoteConfig()
-			if error != nil {
-				NSLog("Error read config from cache: \(error.debugDescription)")
-				return (false, error)
-			}
-
-			if config == nil {
-				return (true, ConfigError(kind: .configTextEmpty))
 			}
 
 			self.remoteConfig = config
